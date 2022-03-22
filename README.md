@@ -1,4 +1,4 @@
-# SAC (Security Access Control Based on Video Camera, Fingerptint & RFID Card) Back-end
+# SAC (Security Access Control Based on Video Camera, Fingerprint & RFID Card) Back-end
 
 Install Node.js (last stable version) https://nodejs.org/en/ 
 
