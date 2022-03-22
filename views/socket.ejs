@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<script
+        src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+        integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+        crossorigin="anonymous"
+></script>
+<script>
+  let socket = io.connect("http://localhost:8000");
+  socket.on("news", function (data) {
+    console.log(data);
+    socket.emit("my other event", { my: "data" });
+  });
+</script>
+<body>
+<h1>Hello</h1>
+</body>
+</html>

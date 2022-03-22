@@ -1,0 +1,60 @@
+{
+  "name": "sac-backend",
+  "version": "1.0.0",
+  "description": "SAC server",
+  "main": "index.js",
+  "type": "module",
+  "author": "Kovalskii",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://.git"
+  },
+  "engines": {
+    "node": "14.17.6",
+    "npm": "8.5.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "local": "cross-env NODE_ENV=local nodemon --inspect -r dotenv/config -r @babel/register src/index",
+    "prod": "cross-env NODE_ENV=prod nodemon --inspect -r dotenv/config -r @babel/register src/index"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "chai-datetime": "^1.8.0",
+    "chalk": "^4.1.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "firebase": "^9.6.9",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.4",
+    "mongoose": "^5.12.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/core": "^7.13.8",
+    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+    "@babel/register": "^7.13.8",
+    "chai": "^4.3.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.21.0",
+    "nodemon": "^2.0.7",
+    "prettier": "2.2.1"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "#readme",
+  "directories": {
+    "doc": "docs"
+  }
+}
