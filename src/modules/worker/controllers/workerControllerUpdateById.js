@@ -3,6 +3,7 @@ import analytics from '../../analytics/controllers/analytics.js';
 import { deleteDoc, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../core/database.js";
 import pkg from 'lodash';
+import generateSearchKeywordsQuery from "../queries/generateSearchKeywordsQuery.js";
 const { get } = pkg;
 
 export default async function workerUpdateById(req, res) {
@@ -21,6 +22,7 @@ export default async function workerUpdateById(req, res) {
     photo: photo,
     //rfid: rfid,
     //fingerprint: fingerprint,
+    searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
     updatedAt: serverTimestamp(),
   };
 

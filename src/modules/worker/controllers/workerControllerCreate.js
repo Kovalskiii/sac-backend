@@ -3,6 +3,7 @@ import analytics from '../../analytics/controllers/analytics.js';
 import pkg from 'lodash';
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { workersCollectionRef } from "../../core/database.js";
+import generateSearchKeywordsQuery from "../queries/generateSearchKeywordsQuery.js";
 const { get } = pkg;
 
 export default async function workerCreate(req, res) {
@@ -20,6 +21,7 @@ export default async function workerCreate(req, res) {
     photo: photo,
     //rfid: rfid,
     //fingerprint: fingerprint,
+    searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
     timestamp: serverTimestamp(),
   };
 

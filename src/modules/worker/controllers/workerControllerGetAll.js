@@ -1,4 +1,4 @@
-import { getDocs, query} from "firebase/firestore";
+import { getDocs, query } from "firebase/firestore";
 import { workersCollectionRef } from "../../core/database.js";
 import analytics from "../../analytics/controllers/analytics.js";
 import message from "../../utils/messages.js";
@@ -14,7 +14,6 @@ export default async function workerGetAllList(req, res) {
           controller: 'workerControllerGetAll',
         });
         return res.status(200).json(message.success('Get all workers list. Success', workersList));
-
       } else {
         //
         const reason = 'Get all workers list. Fail. Workers list is empty';
@@ -32,6 +31,4 @@ export default async function workerGetAllList(req, res) {
       });
       return res.status(400).json(message.fail('Get all workers list. Error', error));
     });
-
-
 }
