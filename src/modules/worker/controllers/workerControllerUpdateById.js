@@ -1,8 +1,8 @@
 import message from '../../utils/messages.js';
 import analytics from '../../analytics/controllers/analytics.js';
-import pkg from 'lodash';
-import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../core/database.js";
+import pkg from 'lodash';
 const { get } = pkg;
 
 export default async function workerUpdateById(req, res) {
@@ -24,20 +24,43 @@ export default async function workerUpdateById(req, res) {
     updatedAt: serverTimestamp(),
   };
 
-  await updateDoc(workerDocRef, updatedWorker)
-    .then(() => {
-      analytics('WORKER_UPDATE_BY_ID_SUCCESS', {
-        workerId: workerDocRef.id,
-        controller: 'workerControllerUpdateById',
-      });
-      return res.status(200).json(message.success('Worker updated successfully', workerDocRef.id));
+  await getDoc(workerDocRef)
+    .then((docSnapshot) => {
+      if(docSnapshot.exists()) {
+        //
+        updateDoc(workerDocRef, updatedWorker)
+          .then(() => {
+            analytics('WORKER_UPDATE_BY_ID_SUCCESS', {
+              workerId: workerDocRef.id,
+              controller: 'workerControllerUpdateById',
+            });
+            return res.status(200).json(message.success('Worker update by id. Success', workerDocRef.id));
 
+          })
+          .catch((error) => {
+            analytics('WORKER_UPDATE_BY_ID_ERROR', {
+              error: error.message,
+              controller: 'workerControllerUpdateById',
+            });
+            res.status(400).json(message.fail('Worker update by id failed. Error', error));
+          });
+      }
+      else {
+        const reason = 'No worker for provided id. Fail';
+        //
+        analytics('WORKER_UPDATE_BY_ID_FAIL', {
+          reason,
+          workerId: workerDocRef.id,
+          controller: 'workerControllerUpdateById',
+        });
+        res.status(400).json(message.fail(reason,true));
+      }
     })
     .catch((error) => {
       analytics('WORKER_UPDATE_BY_ID_ERROR', {
         error: error.message,
         controller: 'workerControllerUpdateById',
       });
-      res.status(400).json(message.fail('Worker update failed. Error', error));
-    });
+      res.status(400).json(message.fail('No worker for provided id. Worker update by id failed. Error', error));
+    })
 }
