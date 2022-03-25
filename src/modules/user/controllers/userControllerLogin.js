@@ -9,6 +9,7 @@ import { getDocs, query, where } from "firebase/firestore";
 import { usersCollectionRef } from "../../core/database.js";
 
 const { get, uniq, hasIn } = pkg;
+
 const permissions = (userRole) => uniq(roles[userRole].map((el) => el));
 
 const userLogin = async (req, res) => {

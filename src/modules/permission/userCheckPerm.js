@@ -13,7 +13,7 @@ export const userCan = (userRole, checkedPermission) => {
 
 const userCheckPerm = (checkedPermission) => async (req, res, next) => {
   const userId = get(req, 'userData.userId', null);
-  const userDocRef = doc(db, "users", `${userId}`);
+  const userDocRef = doc(db, 'users', userId);
   const docSnapshot = await getDoc(userDocRef);
 
   if(docSnapshot.exists()) {
