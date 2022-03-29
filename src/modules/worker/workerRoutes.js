@@ -24,7 +24,7 @@ router.post(
 
 router.delete(
   '/delete/:workerId',
-  serviceHeader('jobProposalDeleteById'),
+  serviceHeader('workerControllerDeleteById'),
   userCheckAuth,
   userCheckPerm('admin.worker.all'),
   workerDeleteById,
@@ -32,7 +32,7 @@ router.delete(
 
 router.get(
   '/getAll',
-  serviceHeader('jobProposalGetAll'),
+  serviceHeader('workerControllerGetAll'),
   userCheckAuth,
   userCheckPerm('admin.worker.all'),
   workerGetAllList,

@@ -342,7 +342,7 @@
 								"searchByName"
 							]
 						},
-						"description": "Due to this request we can search worker by subject"
+						"description": "Due to this request we can searchs worker by first name and last name."
 					},
 					"response": []
 				},
@@ -395,6 +395,90 @@
 							]
 						},
 						"description": "Due to this request we can update worker by it's Id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Statistics",
+			"item": [
+				{
+					"name": "Statistics Search By Worker Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"vladi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/statistics/searchByWorkerName",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"statistics",
+								"searchByWorkerName"
+							]
+						},
+						"description": "Due to this request we can searchs statistics by worker first name and last name."
+					},
+					"response": []
+				},
+				{
+					"name": "Statistics Get All List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/statistics/getAll",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"statistics",
+								"getAll"
+							]
+						},
+						"description": "Due to this request we can get workers statistics list"
 					},
 					"response": []
 				}
