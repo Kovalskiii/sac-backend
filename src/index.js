@@ -10,17 +10,16 @@ import chai_datetime from 'chai-datetime';
 import dotenv from 'dotenv';
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { mqttConnection } from "./modules/core/mqtt.js";
 
 dotenv.config({ path: './.env' });
 
 chai.use(chai_datetime);
 
 const app = express();
-
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  // options
-});
+const io = new Server(httpServer, {});
+
 io.on('connection', (socket) => {
   console.log('User connected:' + socket.id);
 
@@ -36,11 +35,13 @@ cors(app);
 routes(app);
 errorHandling(app);
 app.set('view engine', 'ejs');
-
+mqttConnection();
 serverStart(httpServer);
 
-
 export default app;
+
+
+
 
 
 
@@ -55,3 +56,4 @@ export default app;
 // const server = serverStart(app);
 //
 // export default app;
+

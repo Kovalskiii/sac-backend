@@ -46,8 +46,6 @@ const workerSearchQuery = async (data) => {
   else {
 
   }
-
-
 }
 
 export default workerSearchQuery;

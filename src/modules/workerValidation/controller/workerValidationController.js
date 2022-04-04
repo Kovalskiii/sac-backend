@@ -16,8 +16,6 @@ export default async function workerValidation(data) {
         //
         const statisticsData = {
           workerId: worker.id,
-          firstName: worker.data().firstName,
-          lastName: worker.data().lastName,
           name: worker.data().name,
           photo: worker.data().photo,
           searchKeywords: worker.data().searchKeywords,

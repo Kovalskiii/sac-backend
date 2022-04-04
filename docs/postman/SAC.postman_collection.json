@@ -155,61 +155,6 @@
 					"response": []
 				},
 				{
-					"name": "upload file",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "photo",
-									"type": "file",
-									"src": "/C:/Users/Kovalskii/Downloads/photo-output1.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{host}}/worker/upload",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"worker",
-								"upload"
-							]
-						},
-						"description": "Due to this request we can create worker"
-					},
-					"response": []
-				},
-				{
 					"name": "Worker Delete By Id",
 					"request": {
 						"method": "DELETE",
@@ -397,6 +342,207 @@
 						"description": "Due to this request we can update worker by it's Id"
 					},
 					"response": []
+				},
+				{
+					"name": "Worker Get Fingerprint Data",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/worker/get/fingerprint/data",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"worker",
+								"get",
+								"fingerprint",
+								"data"
+							]
+						},
+						"description": "Due to this request we can get worker fingerprint data from esp32"
+					},
+					"response": []
+				},
+				{
+					"name": "Worker Get Rfid Data",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/worker/get/rfid/data",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"worker",
+								"get",
+								"rfid",
+								"data"
+							]
+						},
+						"description": "Due to this request we can get worker rfid data from esp32"
+					},
+					"response": []
+				},
+				{
+					"name": "Worker Set Register Mode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/worker/set/registerMode",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"worker",
+								"set",
+								"registerMode"
+							]
+						},
+						"description": "Due to this request we can set system register mode."
+					},
+					"response": []
+				},
+				{
+					"name": "Worker Cancel Register Mode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/worker/cancel/registerMode",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"worker",
+								"cancel",
+								"registerMode"
+							]
+						},
+						"description": "Due to this request we can cancel system register mode."
+					},
+					"response": []
+				},
+				{
+					"name": "upload file",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/Kovalskii/Downloads/photo-output1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/worker/upload",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"worker",
+								"upload"
+							]
+						},
+						"description": "Due to this request we can create worker"
+					},
+					"response": []
 				}
 			]
 		},
@@ -483,6 +629,59 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "mqtt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/mqtt",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mqtt"
+					]
+				},
+				"description": "Due to this request we can searchs statistics by worker first name and last name."
+			},
+			"response": []
 		}
 	]
 }
