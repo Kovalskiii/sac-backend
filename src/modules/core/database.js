@@ -28,6 +28,7 @@ export const storage = getStorage(firebaseApp);
 
 export const usersCollectionRef = collection(db, 'users');
 export const workersCollectionRef = collection(db, 'workers');
+export const statisticsCollectionRef = collection(db, 'statistics');
 export const workersPhotoRef = ref(storage, 'workersPhoto');
 
 

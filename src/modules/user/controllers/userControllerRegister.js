@@ -3,8 +3,8 @@ import analytics from '../../analytics/controllers/analytics.js';
 import pkg from 'lodash';
 const { get } = pkg;
 import { checkPassword } from './utils.js';
-import userCreateQuery from '../queries/createQuery.js';
-import { checkIsUserExistQuery } from '../queries/checkIsUserExistQuery.js';
+import userCreateQuery from '../queries/userCreateQuery.js';
+import checkIsUserExistQuery from '../queries/checkIsUserExistQuery.js';
 
 const userRegister = async (req, res) => {
 
@@ -115,7 +115,7 @@ export default userRegister;
 // import pkg from 'lodash';
 // const { get } = pkg;
 // import { checkPassword } from './utils.js';
-// import userCreateQuery from '../queries/createQuery.js';
+// import userCreateQuery from '../queries/userCreateQuery.js';
 // import { checkIsUserExistQuery } from '../queries/checkIsUserExistQuery.js';
 //
 // const userRegister = async (req, res) => {

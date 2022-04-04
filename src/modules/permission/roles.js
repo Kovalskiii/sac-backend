@@ -7,7 +7,8 @@ const roles = {
 
   admin: [
     'user.admin',
-    'admin.worker.all'
+    'admin.worker.all',
+    'admin.statistics.all'
   ],
 
   new: [

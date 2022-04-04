@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import multer from 'multer'
 import serviceHeader from "../utils/serviceHeader.js";
 import userCheckAuth from "../user/middlewares/userCheckAuth.js";
 import userCheckPerm from "../permission/userCheckPerm.js";
@@ -9,7 +10,11 @@ import workerGetById from "./controllers/workerControllerGetById.js";
 import workerSearchByName from "./controllers/workerControllerSearchByName.js";
 import workerUpdateById from "./controllers/workerControllerUpdateById.js";
 import uploadFile from "./controllers/uploadFile.js";
-import multer from 'multer'
+import workerSetRegisterMode from "./controllers/workerControllerSetRegisterMode.js";
+import workerCancelRegisterMode from "./controllers/workerControllerCancelRegisterMode.js";
+import workerGetFingerprintData from "./controllers/workerControllerGetFingerprintData.js";
+import workerGetRfidData from "./controllers/workerControllerGetRfidData.js";
+
 const upload = multer({ dest: 'uploads/' })
 
 const router = Router();
@@ -24,7 +29,7 @@ router.post(
 
 router.delete(
   '/delete/:workerId',
-  serviceHeader('jobProposalDeleteById'),
+  serviceHeader('workerControllerDeleteById'),
   userCheckAuth,
   userCheckPerm('admin.worker.all'),
   workerDeleteById,
@@ -32,7 +37,7 @@ router.delete(
 
 router.get(
   '/getAll',
-  serviceHeader('jobProposalGetAll'),
+  serviceHeader('workerControllerGetAll'),
   userCheckAuth,
   userCheckPerm('admin.worker.all'),
   workerGetAllList,
@@ -61,6 +66,39 @@ router.patch(
   userCheckPerm('admin.worker.all'),
   workerUpdateById,
 );
+
+router.post(
+  '/set/registerMode',
+  serviceHeader('workerControllerSetRegisterMode'),
+  userCheckAuth,
+  userCheckPerm('admin.worker.all'),
+  workerSetRegisterMode,
+);
+
+router.post(
+  '/cancel/registerMode',
+  serviceHeader('workerControllerCancelRegisterMode'),
+  userCheckAuth,
+  userCheckPerm('admin.worker.all'),
+  workerCancelRegisterMode,
+);
+
+router.get(
+  '/get/fingerprint/data',
+  serviceHeader('workerControllerGetFingerprintData'),
+  userCheckAuth,
+  userCheckPerm('admin.worker.all'),
+  workerGetFingerprintData,
+);
+
+router.get(
+  '/get/rfid/data',
+  serviceHeader('workerControllerGetRfidData'),
+  userCheckAuth,
+  userCheckPerm('admin.worker.all'),
+  workerGetRfidData,
+);
+
 
 router.post(
   '/upload',

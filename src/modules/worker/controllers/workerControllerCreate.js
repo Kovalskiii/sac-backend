@@ -4,6 +4,7 @@ import pkg from 'lodash';
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { workersCollectionRef } from "../../core/database.js";
 import generateSearchKeywordsQuery from "../queries/generateSearchKeywordsQuery.js";
+import { client } from "../../core/mqtt.js";
 const { get } = pkg;
 
 export default async function workerCreate(req, res) {
@@ -31,6 +32,12 @@ export default async function workerCreate(req, res) {
         workerId: worker.id,
         controller: 'workerControllerCreate',
       });
+
+      client.publish('registerMode', `false`,(error) => {
+        if (error) {
+          return console.log(message.fail('Cancel worker register mode. Error', error, true));
+        }
+      })
       return res.status(200).json(message.success('Worker created successfully', worker.id));
 
     })

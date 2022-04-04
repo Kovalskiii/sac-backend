@@ -2,7 +2,7 @@ import message from '../../utils/messages.js';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../core/database.js"
 
-const userUpdateByIdQuery = async ({userId, values }) => {
+const userUpdateByIdQuery = async ({userId, values}) => {
   const userDocRef = doc(db, "users", userId);
 
   return await updateDoc(userDocRef, {

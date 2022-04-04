@@ -1,9 +1,10 @@
 import message from '../../utils/messages.js';
 import analytics from '../../analytics/controllers/analytics.js';
-import { deleteDoc, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../core/database.js";
 import pkg from 'lodash';
 import generateSearchKeywordsQuery from "../queries/generateSearchKeywordsQuery.js";
+import { client } from "../../core/mqtt.js";
 const { get } = pkg;
 
 export default async function workerUpdateById(req, res) {
@@ -36,6 +37,12 @@ export default async function workerUpdateById(req, res) {
               workerId: workerDocRef.id,
               controller: 'workerControllerUpdateById',
             });
+
+            client.publish('registerMode', `false`,(error) => {
+              if (error) {
+                return console.log(message.fail('Cancel worker register mode. Error', error, true));
+              }
+            })
             return res.status(200).json(message.success('Worker update by id. Success', workerDocRef.id));
 
           })

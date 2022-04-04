@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import message from '../../utils/messages.js';
 import analytics from '../../analytics/controllers/analytics.js';
-import userUpdateByIdQuery from '../queries/updateByIdQuery.js';
+import userUpdateByIdQuery from '../queries/userUpdateByIdQuery.js';
 
 const userCheckAuth = async (req, res, next) => {
   try {
