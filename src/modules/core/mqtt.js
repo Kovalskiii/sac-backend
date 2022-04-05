@@ -1,4 +1,5 @@
 import * as mqtt from "mqtt"
+import workerValidationService from "../workerValidation/controller/workerValidationController.js";
 
 export const client = mqtt.connect({ port: 8883, host: '78.47.52.122', keepalive: 10000});
 //export const client = mqtt.connect({ port: 1883, host: 'broker.emqx.io', keepalive: 10000});
@@ -18,16 +19,18 @@ export function mqttConnection() {
     client.end()
     client.reconnect();
   })
+
+  workerValidationService();
 }
 
 function mqttSubscribe() {
   client.subscribe({
-    'registerMode': { qos: 0 },
-    'registerMode/rfid/setData': { qos: 0 },
-    'registerMode/fingerprint/setData': { qos: 0 },
-    'workerValidation/rfid/setData': { qos: 0 },
-    'workerValidation/fingerprint/setData': { qos: 0 },
-    'workerValidation/camera/setData': { qos: 0 }
+    'registerMode': { qos: 2 },
+    'registerMode/rfid/setData': { qos: 2 },
+    'registerMode/fingerprint/setData': { qos: 2 },
+    'workerValidation/rfid/setData': { qos: 2 },
+    'workerValidation/fingerprint/setData': { qos: 2 },
+    'workerValidation/camera/setData': { qos: 2 }
   }, function (err) {
     if (err) {
       console.log('Subscribe to the topic error', err);

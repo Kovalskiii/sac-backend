@@ -133,7 +133,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Vladislav\",\n    \"lastName\": \"Kov\",\n    \"photo\": \"https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGhvdG9ncmFwaGVyfGVufDB8fDB8fA%3D%3D&w=1000&q=80\"\n}",
+							"raw": "{\n    \"firstName\": \"Vladislav\",\n    \"lastName\": \"Kov\",\n    \"photo\": \"https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGhvdG9ncmFwaGVyfGVufDB8fDB8fA%3D%3D&w=1000&q=80\",\n    \"rfid\": \"123123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

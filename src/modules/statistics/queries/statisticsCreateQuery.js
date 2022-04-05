@@ -3,9 +3,9 @@ import { statisticsCollectionRef } from "../../core/database.js";
 import message from "../../utils/messages.js";
 
 const statisticsCreateQuery = async (statisticsData) => {
-  await addDoc(statisticsCollectionRef, statisticsData)
+  return await addDoc(statisticsCollectionRef, statisticsData)
     .then((statistics) => {
-      return message.success('Statistics created successfully', statistics.id);
+      return message.success('Statistics created successfully', statistics);
     })
     .catch((error) => {
       return message.fail('Creating statistics failed. Error', error);
