@@ -4,7 +4,7 @@ import { client } from "../../core/mqtt.js";
 
 export default async function workerSetRegisterMode(req, res) {
 
-  client.publish('registerMode', `true`,(error) => {
+  client.publish('registerMode', 'true',(error) => {
     if (!error) {
       //
       analytics('WORKER_SET_REGISTER_MODE_SUCCESS', {

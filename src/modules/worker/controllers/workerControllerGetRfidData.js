@@ -5,6 +5,16 @@ import { client } from "../../core/mqtt.js";
 export default async function workerGetRfidData(req, res) {
   let enterFlag = true;
 
+  client.publish('registerMode/rfid/getData', 'give me rfid',(error) => {
+    if (error) {
+      //
+      analytics('WORKER_GET_RFID_DATA_ERROR', {
+        controller: 'workerControllerGetRfidData',
+      });
+      return message.fail('Publish mqtt message. Error', error, true);
+    }
+  })
+
   client.on('message', function (topic, payload) {
     //
     if ((topic === 'registerMode/rfid/setData') && (enterFlag === true)) {

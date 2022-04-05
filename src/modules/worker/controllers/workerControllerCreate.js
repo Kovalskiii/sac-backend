@@ -12,7 +12,7 @@ export default async function workerCreate(req, res) {
   const firstName = get(req, 'body.firstName');
   const lastName = get(req, 'body.lastName');
   const photo = get(req, 'body.photo');
-  //const rfid = get(req, 'body.rfid');
+  const rfid = get(req, 'body.rfid');
   //const fingerprint = get(req, 'body.fingerprint');
 
   const newWorker = {
@@ -20,7 +20,7 @@ export default async function workerCreate(req, res) {
     lastName: lastName,
     name: `${firstName} ${lastName}`,
     photo: photo,
-    //rfid: rfid,
+    rfid: rfid,
     //fingerprint: fingerprint,
     searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
     timestamp: serverTimestamp(),
@@ -33,9 +33,16 @@ export default async function workerCreate(req, res) {
         controller: 'workerControllerCreate',
       });
 
-      client.publish('registerMode', `false`,(error) => {
+      client.publish('registerMode', 'false', (error) => {
         if (error) {
-          return console.log(message.fail('Cancel worker register mode. Error', error, true));
+          const reason = 'Cancel worker register mode. Fail';
+          //
+          analytics('WORKER_CREATE_FAIL', {
+            error: error,
+            reason: reason,
+            controller: 'workerControllerCreate',
+          });
+          return message.fail(reason, error, true);
         }
       })
       return res.status(200).json(message.success('Worker created successfully', worker.id));

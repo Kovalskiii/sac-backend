@@ -38,9 +38,16 @@ export default async function workerUpdateById(req, res) {
               controller: 'workerControllerUpdateById',
             });
 
-            client.publish('registerMode', `false`,(error) => {
+            client.publish('registerMode', 'false', (error) => {
               if (error) {
-                return console.log(message.fail('Cancel worker register mode. Error', error, true));
+                const reason = 'Cancel worker register mode. Fail';
+                //
+                analytics('WORKER_UPDATE_BY_ID_FAIL', {
+                  error: error,
+                  reason: reason,
+                  controller: 'workerControllerUpdateById',
+                });
+                return message.fail(reason, error, true);
               }
             })
             return res.status(200).json(message.success('Worker update by id. Success', workerDocRef.id));
