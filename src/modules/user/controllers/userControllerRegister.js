@@ -36,7 +36,7 @@ const userRegister = async (req, res) => {
 
   if (isUserExists) {
     //
-    const analyticsId = analytics('USER_REGISTER_FAIL', {
+    analytics('USER_REGISTER_FAIL', {
       reason: 'Mail exists',
       userData: { ...user, password: null },
       controller: 'userControllerRegister',
@@ -44,7 +44,7 @@ const userRegister = async (req, res) => {
 
     return res
       .status(409)
-      .json(message.fail('User with this e-mail exists', analyticsId));
+      .json(message.fail('User with this e-mail exists'));
   }
 
   const createdUser = await userCreateQuery(user);
