@@ -16,7 +16,6 @@ const workerValidationQuery = async (data, type) => {
       name: worker.payload.name,
       photo: worker.payload.photo,
       searchKeywords: worker.payload.searchKeywords,
-      //searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
       timestamp: serverTimestamp(),
     };
 

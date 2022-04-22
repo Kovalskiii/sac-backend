@@ -3,6 +3,7 @@ import { db } from "../../core/database.js";
 import analytics from "../../analytics/controllers/analytics.js";
 import message from "../../utils/messages.js";
 import pkg from 'lodash';
+import { client } from "../../core/mqtt.js";
 const { get } = pkg;
 
 export default async function workerDeleteById(req, res) {
@@ -19,6 +20,16 @@ export default async function workerDeleteById(req, res) {
               workerId: workerDocRef.id,
               controller: 'workerControllerDeleteById',
             });
+
+            client.publish('workerValidation/camera/getData', `please reload photos`,(error) => {
+              if (error) {
+                //
+                analytics('WORKER_PUBLISH_MQTT_MESSAGE_ERROR', {
+                  controller: 'workerControllerDeleteById',
+                });
+                return message.fail('Publish mqtt message. Error', error, true);
+              }
+            })
             return res.status(200).json(message.success('Worker delete by id. Success', workerDocRef.id));
 
           })

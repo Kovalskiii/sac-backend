@@ -12,17 +12,17 @@ export default async function workerUpdateById(req, res) {
   const workerDocRef = doc(db, 'workers', workerId);
   const firstName = get(req, 'body.firstName');
   const lastName = get(req, 'body.lastName');
-  const photo = get(req, 'body.photo');
-  //const rfid = get(req, 'body.rfid');
-  //const fingerprint = get(req, 'body.fingerprint');
+  const photo = get(req, 'body.photo', null);
+  const rfid = get(req, 'body.rfid');
+  const fingerprintId = get(req, 'body.fingerprintId');
 
   const updatedWorker = {
     firstName: firstName,
     lastName: lastName,
     name: `${firstName} ${lastName}`,
     photo: photo,
-    //rfid: rfid,
-    //fingerprint: fingerprint,
+    rfid: rfid,
+    fingerprintId: fingerprintId,
     searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
     updatedAt: serverTimestamp(),
   };
@@ -50,8 +50,18 @@ export default async function workerUpdateById(req, res) {
                 return message.fail(reason, error, true);
               }
             })
-            return res.status(200).json(message.success('Worker update by id. Success', workerDocRef.id));
 
+            client.publish('workerValidation/camera/getData', `please reload photos`,(error) => {
+              if (error) {
+                //
+                analytics('WORKER_PUBLISH_MQTT_MESSAGE_ERROR', {
+                  controller: 'workerControllerUpdateById',
+                });
+                return message.fail('Publish mqtt message. Error', error, true);
+              }
+            })
+            return res.status(200).json(message.success('Worker update by id. Success', workerDocRef.id));
+            //
           })
           .catch((error) => {
             analytics('WORKER_UPDATE_BY_ID_ERROR', {

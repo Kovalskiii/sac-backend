@@ -13,7 +13,7 @@ export default async function workerCreate(req, res) {
   const lastName = get(req, 'body.lastName');
   const photo = get(req, 'body.photo');
   const rfid = get(req, 'body.rfid');
-  //const fingerprint = get(req, 'body.fingerprint');
+  const fingerprintId = get(req, 'body.fingerprintId');
 
   const newWorker = {
     firstName: firstName,
@@ -21,7 +21,7 @@ export default async function workerCreate(req, res) {
     name: `${firstName} ${lastName}`,
     photo: photo,
     rfid: rfid,
-    //fingerprint: fingerprint,
+    fingerprintId: fingerprintId,
     searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
     timestamp: serverTimestamp(),
   };
@@ -45,14 +45,24 @@ export default async function workerCreate(req, res) {
           return message.fail(reason, error, true);
         }
       })
-      return res.status(200).json(message.success('Worker created successfully', worker.id));
 
+      client.publish('workerValidation/camera/getData', `please reload photos`,(error) => {
+        if (error) {
+          //
+          analytics('WORKER_PUBLISH_MQTT_MESSAGE_ERROR', {
+            controller: 'workerControllerCreate',
+          });
+          return message.fail('Publish mqtt message. Error', error, true);
+        }
+      })
+      return res.status(200).json(message.success('Worker created successfully', worker.id));
+      //
     })
     .catch((error) => {
       analytics('WORKER_CREATE_ERROR', {
         error: error.message,
         controller: 'workerControllerCreate',
       });
-      res.status(400).json(message.fail('Creating worker failed. Error', error));
+      return res.status(400).json(message.fail('Creating worker failed. Error', error));
     });
 }
