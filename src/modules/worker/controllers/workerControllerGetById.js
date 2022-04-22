@@ -11,7 +11,7 @@ export default async function workerGetById(req, res) {
 
   await getDoc(workerDocRef)
     .then((docSnapshot) => {
-      if(docSnapshot.exists()) {
+      if (docSnapshot.exists()) {
         //
         analytics('WORKER_GET_BY_ID_SUCCESS', {
           workerId: workerDocRef.id,
