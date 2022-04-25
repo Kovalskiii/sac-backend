@@ -4,14 +4,14 @@ import pkg from 'lodash';
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { workersCollectionRef } from "../../core/database.js";
 import generateSearchKeywordsQuery from "../queries/generateSearchKeywordsQuery.js";
-import { client } from "../../core/mqtt.js";
+import uploadPhotoQuery from "../queries/uploadPhotoQuery.js";
 const { get } = pkg;
 
-export default async function workerCreate(req, res) {
+export default async function workerCreate(req, res, next) {
 
+  const photoFile = req.file;
   const firstName = get(req, 'body.firstName');
   const lastName = get(req, 'body.lastName');
-  const photo = get(req, 'body.photo');
   const rfid = get(req, 'body.rfid');
   const fingerprintId = get(req, 'body.fingerprintId');
 
@@ -19,12 +19,15 @@ export default async function workerCreate(req, res) {
     firstName: firstName,
     lastName: lastName,
     name: `${firstName} ${lastName}`,
-    photo: photo,
-    rfid: rfid,
+    photo: 'null',
+    rfid: rfid.toUpperCase().trim(),
     fingerprintId: fingerprintId,
     searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
     timestamp: serverTimestamp(),
   };
+
+  const updatedWorker = { updatedAt: serverTimestamp() };
+  const operationType = 'create';
 
   await addDoc(workersCollectionRef, newWorker)
     .then((worker) => {
@@ -33,30 +36,7 @@ export default async function workerCreate(req, res) {
         controller: 'workerControllerCreate',
       });
 
-      client.publish('registerMode', 'false', (error) => {
-        if (error) {
-          const reason = 'Cancel worker register mode. Fail';
-          //
-          analytics('WORKER_CREATE_FAIL', {
-            error: error,
-            reason: reason,
-            controller: 'workerControllerCreate',
-          });
-          return message.fail(reason, error, true);
-        }
-      })
-
-      client.publish('workerValidation/camera/getData', `please reload photos`,(error) => {
-        if (error) {
-          //
-          analytics('WORKER_PUBLISH_MQTT_MESSAGE_ERROR', {
-            controller: 'workerControllerCreate',
-          });
-          return message.fail('Publish mqtt message. Error', error, true);
-        }
-      })
-      return res.status(200).json(message.success('Worker created successfully', worker.id));
-      //
+      uploadPhotoQuery(photoFile, worker.id, res, updatedWorker, operationType);  //upload photo and after that, update worker fields
     })
     .catch((error) => {
       analytics('WORKER_CREATE_ERROR', {

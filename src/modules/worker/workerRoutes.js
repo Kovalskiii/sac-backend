@@ -9,13 +9,14 @@ import workerGetAllList from "./controllers/workerControllerGetAll.js";
 import workerGetById from "./controllers/workerControllerGetById.js";
 import workerSearchByName from "./controllers/workerControllerSearchByName.js";
 import workerUpdateById from "./controllers/workerControllerUpdateById.js";
-import uploadFile from "./controllers/uploadFile.js";
 import workerSetRegisterMode from "./controllers/workerControllerSetRegisterMode.js";
 import workerCancelRegisterMode from "./controllers/workerControllerCancelRegisterMode.js";
 import workerGetFingerprintData from "./controllers/workerControllerGetFingerprintData.js";
 import workerGetRfidData from "./controllers/workerControllerGetRfidData.js";
 
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({
+  storage: multer.memoryStorage(),
+});
 
 const router = Router();
 
@@ -24,6 +25,7 @@ router.post(
   serviceHeader('workerControllerCreate'),
   userCheckAuth,
   userCheckPerm('admin.worker.all'),
+  upload.single('photo'),
   workerCreate,
 );
 
@@ -64,6 +66,7 @@ router.patch(
   serviceHeader('workerControllerUpdateById'),
   userCheckAuth,
   userCheckPerm('admin.worker.all'),
+  upload.single('photo'),
   workerUpdateById,
 );
 
@@ -97,16 +100,6 @@ router.get(
   userCheckAuth,
   userCheckPerm('admin.worker.all'),
   workerGetRfidData,
-);
-
-
-router.post(
-  '/upload',
-  serviceHeader('workerControllerCreate'),
-  userCheckAuth,
-  userCheckPerm('admin.worker.all'),
-  upload.single('photo'),
-  uploadFile,
 );
 
 export default router;

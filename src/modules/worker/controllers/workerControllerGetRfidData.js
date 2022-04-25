@@ -23,7 +23,7 @@ export default async function workerGetRfidData(req, res) {
       analytics('WORKER_GET_RFID_DATA_SUCCESS', {
         controller: 'workerControllerGetRfidData',
       });
-      return res.status(200).json(message.success('Get RFID data. Success', payload.toString()));
+      return res.status(200).json(message.success('Get RFID data. Success', { rfid: payload.toString() }));
     }
   })
 }

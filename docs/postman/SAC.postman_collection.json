@@ -132,8 +132,34 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Vladislav\",\n    \"lastName\": \"Kov\",\n    \"photo\": \"https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGhvdG9ncmFwaGVyfGVufDB8fDB8fA%3D%3D&w=1000&q=80\",\n    \"rfid\": \"123123\"\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/Kovalskii/Downloads/322a560d9fd34f3ba8bbd7bd6c2bce39.png"
+								},
+								{
+									"key": "firstName",
+									"value": "Vladislav",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "K",
+									"type": "text"
+								},
+								{
+									"key": "rfid",
+									"value": "27 11 1A A7",
+									"type": "text"
+								},
+								{
+									"key": "fingerprintId",
+									"value": "1",
+									"type": "text"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -169,14 +195,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/worker/delete/iBAfqXz63g6gJgMEIlAu",
+							"raw": "{{host}}/worker/delete/qUkAQ1A7PJCWluMT12uT",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"worker",
 								"delete",
-								"iBAfqXz63g6gJgMEIlAu"
+								"qUkAQ1A7PJCWluMT12uT"
 							]
 						},
 						"description": "Due to this request we can delete worker"
@@ -226,14 +252,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/worker/get/iFqJGYv7QS6peDRASplb",
+							"raw": "{{host}}/worker/get/culIfQHIMNzxz6VmbLYt",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"worker",
 								"get",
-								"iFqJGYv7QS6peDRASplb"
+								"culIfQHIMNzxz6VmbLYt"
 							]
 						},
 						"description": "Due to this request we can get worker by id"
@@ -320,8 +346,34 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Vladislav\",\n    \"lastName\": \"Ko\",\n    \"photo\": \"https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGhvdG9ncmFwaGVyfGVufDB8fDB8fA%3D%3D&w=1000&q=80\"\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/C:/Users/Kovalskii/Downloads/322a560d9fd34f3ba8bbd7bd6c2bce39.png"
+								},
+								{
+									"key": "firstName",
+									"value": "Vladislav",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Koval",
+									"type": "text"
+								},
+								{
+									"key": "rfid",
+									"value": "27 11 1A A7",
+									"type": "text"
+								},
+								{
+									"key": "fingerprintId",
+									"value": "2",
+									"type": "text"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -329,14 +381,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/worker/update/rbtcqnU9WYoZJG68nOVp",
+							"raw": "{{host}}/worker/update/qUkAQ1A7PJCWluMT12uT",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"worker",
 								"update",
-								"rbtcqnU9WYoZJG68nOVp"
+								"qUkAQ1A7PJCWluMT12uT"
 							]
 						},
 						"description": "Due to this request we can update worker by it's Id"
@@ -488,61 +540,6 @@
 						"description": "Due to this request we can cancel system register mode."
 					},
 					"response": []
-				},
-				{
-					"name": "upload file",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "photo",
-									"type": "file",
-									"src": "/C:/Users/Kovalskii/Downloads/photo-output1.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{host}}/worker/upload",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"worker",
-								"upload"
-							]
-						},
-						"description": "Due to this request we can create worker"
-					},
-					"response": []
 				}
 			]
 		},
@@ -629,59 +626,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "mqtt",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "{{token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/mqtt",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"mqtt"
-					]
-				},
-				"description": "Due to this request we can searchs statistics by worker first name and last name."
-			},
-			"response": []
 		}
 	]
 }

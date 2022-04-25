@@ -4,7 +4,7 @@ import { client } from "../../core/mqtt.js";
 
 export default async function workerCancelRegisterMode(req, res) {
 
-  client.publish('registerMode', 'false',(error) => {
+  client.publish('registerMode/status', 'false',(error) => {
     if (!error) {
       //
       analytics('WORKER_CANCEL_REGISTER_MODE_SUCCESS', {
