@@ -1,14 +1,16 @@
 import { doc, deleteDoc, getDoc } from "firebase/firestore";
-import { db } from "../../core/database.js";
+import { db, storage } from "../../core/database.js";
 import analytics from "../../analytics/controllers/analytics.js";
 import message from "../../utils/messages.js";
 import pkg from 'lodash';
 import { client } from "../../core/mqtt.js";
+import { ref, deleteObject } from "firebase/storage";
 const { get } = pkg;
 
 export default async function workerDeleteById(req, res) {
   const workerId = get(req, 'params.workerId');
   const workerDocRef = doc(db, 'workers', workerId);
+  const photoRef = ref(storage, 'workersPhoto/' + workerId);
 
   await getDoc(workerDocRef)
     .then((docSnapshot) => {
@@ -21,6 +23,22 @@ export default async function workerDeleteById(req, res) {
               controller: 'workerControllerDeleteById',
             });
 
+            deleteObject(photoRef)
+              .then(() => {
+                analytics('WORKER_PHOTO_DELETE_SUCCESS', {
+                  workerId: workerDocRef.id,
+                  controller: 'workerControllerDeleteById',
+                });
+                res.status(200).json(message.success('Worker photo and worker delete by id. Success', workerDocRef.id));
+              })
+              .catch((error) => {
+                analytics('WORKER_PHOTO_DELETE_ERROR', {
+                  error: error.message,
+                  reason: 'Worker photo is not deleted',
+                  controller: 'workerControllerDeleteById',
+                });
+              })
+
             client.publish('workerValidation/camera/getData', `please reload photos`,(error) => {
               if (error) {
                 //
@@ -30,8 +48,6 @@ export default async function workerDeleteById(req, res) {
                 return message.fail('Publish mqtt message. Error', error, true);
               }
             })
-            return res.status(200).json(message.success('Worker delete by id. Success', workerDocRef.id));
-
           })
           .catch((error) => {
             analytics('WORKER_DELETE_BY_ID_ERROR', {

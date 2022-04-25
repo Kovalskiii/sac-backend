@@ -3,11 +3,10 @@ import { db, workersCollectionRef } from "../../core/database.js";
 import message from "../../utils/messages.js";
 
 const workerSearchQuery = async (data, type) => {
-
+  //
   if (type === 'rfid') {
-    //const q = query(workersCollectionRef, where("searchKeywords", "array-contains", searchString));
-    const q = query(workersCollectionRef, where("rfid", "==", data));
-
+    const q = query(workersCollectionRef, where("rfid", "==", data.toUpperCase().trim()));
+    //
     return await getDocs(q)
       .then((querySnapshot) => {
         if (!querySnapshot.empty) {

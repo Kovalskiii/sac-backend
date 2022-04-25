@@ -1,38 +1,53 @@
-import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import message from "../../utils/messages.js";
-import { storage } from "../../core/database.js";
+import { db, storage } from "../../core/database.js";
+import { doc } from "firebase/firestore";
+import analytics from "../../analytics/controllers/analytics.js";
+import workerUpdateByIdQuery from "./workerUpdateByIdQuery.js";
 
-const uploadPhotoQuery = async ({file}) => {
-  const metadata = {
-    contentType: 'image/jpeg',
-  };
-  const storageRef = ref(storage, 'workersPhoto/' + file.filename);
-  const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+const uploadPhotoQuery = async (photoFile, workerId, res, updatedWorkerObj, operationType) => {
+  const workerDocRef = doc(db, 'workers', workerId);
 
-  await uploadTask.on('state_changed',
-    (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log('Upload is ' + progress + '% done');
-    },
-    (error) => {
-      return message.fail('Photo upload. Error', error.code);
-    },
-    () => {
-      return getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL);
-        return downloadURL;
-      });
-    }
-  );
+  if (photoFile) {
+    const photoName = workerId;
+    const metadata = { contentType: photoFile.mimetype };
+    const storageRef = ref(storage, 'workersPhoto/' + photoName);
+    const uploadTask = uploadBytesResumable(storageRef, photoFile.buffer, metadata);
 
-
-//   return await updateDoc(userDocRef, {
-//     values: values,
-//   }).then(() => {
-//     return message.success('Success. User updated');
-//   }).catch((error) => {
-//     return message.fail('Error. User update error', error);
-//   })
-// };
+    await uploadTask.on('state_changed',
+      (snapshot) => {},
+      (error) => {
+        const reason = 'Photo upload to the firebase storage failed. Error';
+        //
+        analytics('PHOTO_UPLOAD_ERROR', {
+          error: error.code,
+          reason: reason,
+          query: 'uploadPhotoQuery',
+        });
+        message.fail(reason, error.code);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((downloadURL) => {
+            //
+            updatedWorkerObj.photo = downloadURL;
+            workerUpdateByIdQuery(workerDocRef, updatedWorkerObj, res, operationType);  //update worker fields
+          })
+          .catch(error => {
+            const reason = 'Get photo download url failed. Error';
+            //
+            analytics('GET_PHOTO_URL_ERROR', {
+              error: error,
+              reason: reason,
+              query: 'uploadPhotoQuery',
+            });
+            message.fail(reason, error);
+          });
+      }
+    );
+  }
+  else {
+    await workerUpdateByIdQuery(workerDocRef, updatedWorkerObj, res, operationType);  //update worker fields
+  }
 };
 export default uploadPhotoQuery;

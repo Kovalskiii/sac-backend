@@ -25,7 +25,7 @@ export function mqttConnection() {
 
 function mqttSubscribe() {
   client.subscribe({
-    'registerMode': { qos: 2 },
+    'registerMode/status': { qos: 2 },
     'registerMode/rfid/setData': { qos: 2 },
     'registerMode/fingerprint/setData': { qos: 2 },
     'workerValidation/rfid/setData': { qos: 2 },

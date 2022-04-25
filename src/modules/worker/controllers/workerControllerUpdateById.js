@@ -1,27 +1,27 @@
 import message from '../../utils/messages.js';
 import analytics from '../../analytics/controllers/analytics.js';
-import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../core/database.js";
 import pkg from 'lodash';
 import generateSearchKeywordsQuery from "../queries/generateSearchKeywordsQuery.js";
-import { client } from "../../core/mqtt.js";
+import uploadPhotoQuery from "../queries/uploadPhotoQuery.js";
 const { get } = pkg;
 
 export default async function workerUpdateById(req, res) {
+  const photoFile = req.file;
   const workerId = get(req, 'params.workerId');
   const workerDocRef = doc(db, 'workers', workerId);
   const firstName = get(req, 'body.firstName');
   const lastName = get(req, 'body.lastName');
-  const photo = get(req, 'body.photo', null);
   const rfid = get(req, 'body.rfid');
   const fingerprintId = get(req, 'body.fingerprintId');
+  const operationType = 'update';
 
   const updatedWorker = {
     firstName: firstName,
     lastName: lastName,
     name: `${firstName} ${lastName}`,
-    photo: photo,
-    rfid: rfid,
+    rfid: rfid.toUpperCase().trim(),
     fingerprintId: fingerprintId,
     searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
     updatedAt: serverTimestamp(),
@@ -31,45 +31,7 @@ export default async function workerUpdateById(req, res) {
     .then((docSnapshot) => {
       if(docSnapshot.exists()) {
         //
-        updateDoc(workerDocRef, updatedWorker)
-          .then(() => {
-            analytics('WORKER_UPDATE_BY_ID_SUCCESS', {
-              workerId: workerDocRef.id,
-              controller: 'workerControllerUpdateById',
-            });
-
-            client.publish('registerMode', 'false', (error) => {
-              if (error) {
-                const reason = 'Cancel worker register mode. Fail';
-                //
-                analytics('WORKER_UPDATE_BY_ID_FAIL', {
-                  error: error,
-                  reason: reason,
-                  controller: 'workerControllerUpdateById',
-                });
-                return message.fail(reason, error, true);
-              }
-            })
-
-            client.publish('workerValidation/camera/getData', `please reload photos`,(error) => {
-              if (error) {
-                //
-                analytics('WORKER_PUBLISH_MQTT_MESSAGE_ERROR', {
-                  controller: 'workerControllerUpdateById',
-                });
-                return message.fail('Publish mqtt message. Error', error, true);
-              }
-            })
-            return res.status(200).json(message.success('Worker update by id. Success', workerDocRef.id));
-            //
-          })
-          .catch((error) => {
-            analytics('WORKER_UPDATE_BY_ID_ERROR', {
-              error: error.message,
-              controller: 'workerControllerUpdateById',
-            });
-            res.status(400).json(message.fail('Worker update by id failed. Error', error));
-          });
+        uploadPhotoQuery(photoFile, workerId, res, updatedWorker, operationType);  //upload photo and after that, update worker fields
       }
       else {
         const reason = 'No worker for provided id. Fail';
