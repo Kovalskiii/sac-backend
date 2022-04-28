@@ -1,7 +1,7 @@
 import * as mqtt from "mqtt"
 import workerValidationService from "../workerValidation/controller/workerValidationController.js";
 
-export const client = mqtt.connect({ port: 8883, host: '78.47.52.122', keepalive: 10000});
+export const client = mqtt.connect({ port: 1883, host: '78.47.52.122', keepalive: 10000});
 //export const client = mqtt.connect({ port: 1883, host: 'broker.emqx.io', keepalive: 10000});
 
 export function mqttConnection() {
