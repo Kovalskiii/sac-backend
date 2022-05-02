@@ -15,11 +15,12 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=prod npm run build && node build",
+    "start": "npm run build && node build",
     "local": "cross-env NODE_ENV=local nodemon --inspect -r dotenv/config -r @babel/register src/index",
     "prod": "cross-env NODE_ENV=prod nodemon --inspect -r dotenv/config -r @babel/register src/index",
     "build": "npm run clean && babel src -d build",
-    "clean": "rm -rf build && mkdir build"
+    "clean": "rm -rf build && mkdir build",
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
