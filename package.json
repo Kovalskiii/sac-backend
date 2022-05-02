@@ -18,7 +18,7 @@
     "start": "npm run build && node build",
     "local": "cross-env NODE_ENV=local nodemon --inspect -r dotenv/config -r @babel/register src/index",
     "prod": "cross-env NODE_ENV=prod nodemon --inspect -r dotenv/config -r @babel/register src/index",
-    "build": "npm run clean && babel src -d build",
+    "build": "npm run clean && npm i && babel src -d build",
     "clean": "rm -rf build && mkdir build",
     "deploy": "firebase deploy --only hosting"
   },
