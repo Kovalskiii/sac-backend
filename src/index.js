@@ -40,20 +40,3 @@ serverStart(httpServer);
 
 export default app;
 
-
-
-
-
-
-
-// app.disable('x-powered-by'); // Disable Express signature
-// logger(app);
-// parseResponse(app);
-// cors(app);
-// routes(app);
-// errorHandling(app);
-//
-// const server = serverStart(app);
-//
-// export default app;
-
