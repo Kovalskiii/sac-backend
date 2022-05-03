@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "SAC server",
   "main": "index.js",
+  "type": "module",
   "author": "Kovalskii",
   "license": "ISC",
   "repository": {
@@ -15,12 +16,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && node build",
+    "start": "node src/index",
     "local": "cross-env NODE_ENV=local nodemon --inspect -r dotenv/config -r @babel/register src/index",
-    "prod": "cross-env NODE_ENV=prod nodemon --inspect -r dotenv/config -r @babel/register src/index",
-    "build": "npm run clean && npm i && babel src -d build",
-    "clean": "rm -rf build && mkdir build",
-    "deploy": "firebase deploy --only hosting"
+    "prod": "cross-env NODE_ENV=prod nodemon --inspect -r dotenv/config -r @babel/register src/index"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
