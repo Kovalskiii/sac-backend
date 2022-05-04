@@ -19,10 +19,30 @@ const workerValidationQuery = async (data, type) => {
       timestamp: serverTimestamp(),
     };
 
-    analytics('WORKER_VALIDATION_SUCCESS', {
-      controller: 'workerValidationQuery',
-      worker: worker.payload.name,
-    });
+    if (worker.message.includes('fingerprintId')) {
+      analytics('WORKER_VALIDATION_SUCCESS', {
+        controller: 'workerValidationQuery',
+        fingerprintId: worker.payload.fingerprintId,
+        message: worker.message,
+        worker: worker.payload.name,
+      });
+    }
+    else if (worker.message.includes('rfid')) {
+      analytics('WORKER_VALIDATION_SUCCESS', {
+        controller: 'workerValidationQuery',
+        rfid: worker.payload.rfid,
+        message: worker.message,
+        worker: worker.payload.name,
+      });
+    }
+    else {
+      analytics('WORKER_VALIDATION_SUCCESS', {
+        controller: 'workerValidationQuery',
+        workerId: worker.payload.id,
+        message: worker.message,
+        worker: worker.payload.name,
+      });
+    }
     message.success('Worker validation. Success', worker.payload.id);
 
     const statistics = await statisticsCreateQuery(statisticsData);
@@ -56,6 +76,31 @@ const workerValidationQuery = async (data, type) => {
       reason: reason,
       controller: 'workerValidationQuery',
     });
+
+    if (worker.message.includes('fingerprintId')) {
+      analytics('WORKER_VALIDATION_ERROR', {
+        fingerprintId: data.trim(),
+        error: worker.message,
+        reason: reason,
+        controller: 'workerValidationQuery',
+      });
+    }
+    else if (worker.message.includes('rfid')) {
+      analytics('WORKER_VALIDATION_ERROR', {
+        rfid: data.trim(),
+        error: worker.message,
+        reason: reason,
+        controller: 'workerValidationQuery',
+      });
+    }
+    else {
+      analytics('WORKER_VALIDATION_ERROR', {
+        workerId: data.trim(),
+        error: worker.message,
+        reason: reason,
+        controller: 'workerValidationQuery',
+      });
+    }
 
     validationPublishMqttMessage('false');
 
