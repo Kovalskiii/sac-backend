@@ -71,12 +71,6 @@ const workerValidationQuery = async (data, type) => {
   else {
     const reason = 'Worker validation failed. Error';
     //
-    analytics('WORKER_VALIDATION_ERROR', {
-      error: worker.message,
-      reason: reason,
-      controller: 'workerValidationQuery',
-    });
-
     if (worker.message.includes('fingerprintId')) {
       analytics('WORKER_VALIDATION_ERROR', {
         fingerprintId: data.trim(),
