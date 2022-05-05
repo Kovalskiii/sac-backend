@@ -1,7 +1,7 @@
 import express from 'express';
 import logger from './modules/core/logger.js';
 import parseResponse from './modules/core/parseResponse.js';
-//import cors from './modules/core/cors.js';
+import corsExpress from './modules/core/cors.js';
 import chai from 'chai';
 import serverStart from './modules/core/serverStart.js';
 import routes from './modules/core/routes.js';
@@ -11,7 +11,6 @@ import dotenv from 'dotenv';
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { mqttConnection } from "./modules/core/mqtt.js";
-import cors from 'cors';
 
 dotenv.config({ path: './.env' });
 
@@ -32,8 +31,7 @@ io.on('connection', (socket) => {
 app.disable('x-powered-by'); // Disable Express signature
 logger(app);
 parseResponse(app);
-//cors(app);
-app.use(cors());
+corsExpress(app);
 routes(app);
 errorHandling(app);
 app.set('view engine', 'ejs');

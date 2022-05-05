@@ -21,13 +21,21 @@
     "prod": "cross-env NODE_ENV=prod nodemon --inspect -r dotenv/config -r @babel/register src/index"
   },
   "dependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/register": "^7.13.8",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "chai": "^4.3.1",
     "chai-datetime": "^1.8.0",
     "chalk": "^4.1.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
+    "eslint": "^7.21.0",
     "express": "^4.17.1",
     "firebase": "^9.6.9",
     "jsonwebtoken": "^8.5.1",
@@ -38,19 +46,9 @@
     "morgan": "^1.10.0",
     "mqtt": "^4.3.7",
     "multer": "^1.4.4",
-    "socket.io": "^4.4.1",
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.17.10",
-    "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
-    "@babel/preset-env": "^7.17.10",
-    "@babel/register": "^7.13.8",
-    "chai": "^4.3.1",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.21.0",
     "nodemon": "^2.0.7",
-    "prettier": "2.2.1"
-  },
-  "devDependencies": {
+    "prettier": "2.2.1",
+    "socket.io": "^4.4.1"
   },
   "bugs": {
     "url": "https://github.com/Kovalskiii/sac-backend/issues"
