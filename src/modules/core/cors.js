@@ -10,7 +10,3 @@ export default function corsExpress(app) {
   });
 }
 
-// import cors from "cors";
-// export default function corsExpress(app) {
-//   app.use(cors());
-// }
