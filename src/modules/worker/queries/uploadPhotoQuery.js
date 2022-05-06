@@ -11,7 +11,7 @@ const uploadPhotoQuery = async (photoFile, workerId, res, updatedWorkerObj, oper
   if (photoFile) {
     const photoName = workerId;
     const metadata = { contentType: photoFile.mimetype };
-    const storageRef = ref(storage, 'workersPhoto/' + photoName);
+    const storageRef = ref(storage, photoName);
     const uploadTask = uploadBytesResumable(storageRef, photoFile.buffer, metadata);
 
     await uploadTask.on('state_changed',
