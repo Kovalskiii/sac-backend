@@ -32,7 +32,7 @@ const workerUpdateByIdQuery = async (workerDocRef, updatedWorkerObj, res, operat
         }
       })
 
-      client.publish('workerValidation/camera/getData', 'please reload photos',(error) => {
+      client.publish('workerValidation/camera/databaseupdate', 'please reload photos',(error) => {
         if (error) {
           const reason = 'Publish mqtt message. Error';
           //

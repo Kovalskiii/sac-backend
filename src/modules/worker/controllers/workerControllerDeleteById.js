@@ -39,7 +39,7 @@ export default async function workerDeleteById(req, res) {
                 });
               })
 
-            client.publish('workerValidation/camera/getData', `please reload photos`,(error) => {
+            client.publish('workerValidation/camera/databaseupdate', `please reload photos`,(error) => {
               if (error) {
                 //
                 analytics('WORKER_PUBLISH_MQTT_MESSAGE_ERROR', {

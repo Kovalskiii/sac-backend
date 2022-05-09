@@ -30,7 +30,8 @@ function mqttSubscribe() {
     'registerMode/fingerprint/setData': { qos: 2 },
     'workerValidation/rfid/setData': { qos: 2 },
     'workerValidation/fingerprint/setData': { qos: 2 },
-    'workerValidation/camera/setData': { qos: 2 }
+    'workerValidation/camera/databaseupdatestatus': { qos: 2 },
+    'workerValidation/camera/userfound': { qos: 2 }
   }, function (err) {
     if (err) {
       console.log('Subscribe to the topic error', err);

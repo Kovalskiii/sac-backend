@@ -10,7 +10,7 @@ export default function workerValidationService() {
     else if (topic === 'workerValidation/fingerprint/setData') {
       workerValidationQuery(message.toString(), 'fingerprint').then();
     }
-    else if (topic === 'workerValidation/camera/setData') {
+    else if (topic === 'workerValidation/camera/userfound') {
       workerValidationQuery(message.toString(), 'camera').then();
     }
   })
