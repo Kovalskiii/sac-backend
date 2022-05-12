@@ -10,7 +10,7 @@ const { get } = pkg;
 export default async function workerDeleteById(req, res) {
   const workerId = get(req, 'params.workerId');
   const workerDocRef = doc(db, 'workers', workerId);
-  const photoRef = ref(storage, 'workersPhoto/' + workerId);
+  const photoRef = ref(storage, `${workerId}`);
 
   await getDoc(workerDocRef)
     .then((docSnapshot) => {
