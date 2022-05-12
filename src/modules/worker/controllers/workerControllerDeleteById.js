@@ -10,12 +10,14 @@ const { get } = pkg;
 export default async function workerDeleteById(req, res) {
   const workerId = get(req, 'params.workerId');
   const workerDocRef = doc(db, 'workers', workerId);
-  const photoRef = ref(storage, `${workerId}`);
 
   await getDoc(workerDocRef)
     .then((docSnapshot) => {
       if(docSnapshot.exists()) {
         //
+        const photoName = get(docSnapshot.data(), 'photoName', null);
+        const photoRef = ref(storage, `${photoName}`);
+
         deleteDoc(workerDocRef)
           .then(() => {
             analytics('WORKER_DELETE_BY_ID_SUCCESS', {

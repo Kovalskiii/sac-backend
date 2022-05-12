@@ -32,6 +32,7 @@ const uploadPhotoQuery = async (photoFile, workerId, res, updatedWorkerObj, oper
           .then((downloadURL) => {
             //
             updatedWorkerObj.photo = downloadURL;
+            updatedWorkerObj.photoName = photoName;
             workerUpdateByIdQuery(workerDocRef, updatedWorkerObj, res, operationType);  //update worker fields
           })
           .catch(error => {

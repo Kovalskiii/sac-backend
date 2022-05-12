@@ -20,6 +20,7 @@ export default async function workerCreate(req, res, next) {
     lastName: lastName,
     name: `${firstName} ${lastName}`,
     photo: 'null',
+    photoName: 'null',
     rfid: rfid.toUpperCase().trim(),
     fingerprintId: fingerprintId,
     searchKeywords: await generateSearchKeywordsQuery(firstName, lastName),
