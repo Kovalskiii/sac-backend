@@ -9,12 +9,13 @@ const uploadPhotoQuery = async (photoFile, workerId, res, updatedWorkerObj, oper
   const workerDocRef = doc(db, 'workers', workerId);
 
   if (photoFile) {
-    const fileExtension = photoFile.mimetype.split('/').pop();
+    //const fileExtension = photoFile.mimetype.split('/').pop();
     // const photoName = workerId + "." + fileExtension;
     const photoName = workerId + ".png";
-    const metadata = { contentType: photoFile.mimetype };
+    //const metadata = { contentType: photoFile.mimetype };
     const storageRef = ref(storage, `${photoName}`);
-    const uploadTask = uploadBytesResumable(storageRef, photoFile.buffer, metadata);
+    //const uploadTask = uploadBytesResumable(storageRef, photoFile.buffer, metadata);
+    const uploadTask = uploadBytesResumable(storageRef, photoFile.buffer);
 
     await uploadTask.on('state_changed',
       (snapshot) => {},
